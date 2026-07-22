@@ -6,6 +6,8 @@ loaders* pull live data at build time, the charts use the libraries Framework sh
 (Observable Plot / d3 + Vega-Lite), and a scheduled rebuild republishes fresh numbers —
 no hand-edited data.
 
+This dashboard is published at [Orange County Well Water Levels](https://dsummersl.github.io/orange-county-nc-wells/)
+
 ## Run it
 
 Everything lives in this one directory (the Framework app at the root, Python helpers
