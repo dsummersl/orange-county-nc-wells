@@ -58,9 +58,9 @@ jobs:
           NOAA_CDO_TOKEN: ${{ secrets.NOAA_CDO_TOKEN }}
         run: npm run build
 
-      - uses: actions/configure-pages@v4
+      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
       - id: deploy
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
