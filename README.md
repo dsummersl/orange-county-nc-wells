@@ -35,16 +35,51 @@ npm run build
 > blank after you set `NOAA_CDO_TOKEN`, it cached the earlier "no token" result — run
 > `npm run clean` and rebuild.
 
-## The map: shapefiles, not tiles
+## Architecture context
 
-Rendered with Observable **Plot's `geo` mark** (d3-geo) from US Census **TIGER/Line**
-shapefiles — no tile server, no Leaflet. `src/data/basemap.json.py` clips the national
-county file to Orange County (FIPS 37135) and pulls major roads. Drop the shapefiles in
-`scripts/tiger/` (or set `$TIGER_DIR`) and `pip install pyshp`; until then a mock
-outline renders, flagged on the page.
+```mermaid
+flowchart LR
+  subgraph scope["Orange County Well Water Levels"]
+  direction TB
 
-- county: `https://www2.census.gov/geo/tiger/TIGER2023/COUNTY/tl_2023_us_county.zip`
-- roads: `https://www2.census.gov/geo/tiger/TIGER2023/ROADS/tl_2023_37135_roads.zip`
+  visitor["Dashboard Visitor"] -->|"HTTPS"| gh_pages["GitHub Pages<br><br><i>Static site hosting</i>"]
+  gh_pages --> dashboard["Observable Framework<br><br><i>Static site generator + JS runtime</i>"]
+  end
+
+  dashboard -->|"Data loader fetches"| ncdeq["NC DEQ ncwater.org<br><br><i>Groundwater depth records</i>"]
+  dashboard -->|"Data loader fetches"| noaa["NOAA CDO API<br><br><i>Precipitation totals</i>"]
+  dashboard -->|"Reads shapefiles"| census["US Census TIGER/Line<br><br><i>County boundary & roads</i>"]
+
+  style dashboard fill:#ADD8E6
+  style gh_pages fill:#ADD8E6
+  style ncdeq fill:#999999,color:#ffffff,stroke:#ffffff
+  style noaa fill:#999999,color:#ffffff,stroke:#ffffff
+  style census fill:#999999,color:#ffffff,stroke:#ffffff
+  style visitor fill:#00008b,color:#ffffff,stroke:#ffffff
+```
+
+## Tech stack
+
+- **Runtime:** Node.js ≥18, Python ≥3.11
+- **Framework:** [Observable Framework](https://observablehq.com/framework) (~1.13)
+- **Charts:** [Observable Plot](https://observablehq.com/plot/) (d3-geo, Vega-Lite)
+- **Data fetch:** Python (`requests`, `pandas`)
+- **CI/CD:** GitHub Actions + GitHub Pages
+- **Quality:** pytest, ruff, mypy, pre-commit
+
+## External dependencies
+
+| Dependency | Purpose | Access |
+|---|---|---|
+| [ncwater.org](https://www.ncwater.org) | Daily groundwater depth per well | Public web, no token needed |
+| [NOAA CDO API](https://www.ncdc.noaa.gov/cdo-web/) | Monthly precipitation totals | Free token (`NOAA_CDO_TOKEN`) |
+| [US Census TIGER/Line](https://www2.census.gov/geo/tiger/) | County boundary & road shapefiles | Public FTP |
+
+## Links
+
+- Published dashboard: <https://dsummersl.github.io/orange-county-nc-wells/>
+- System architecture: [`docs/architecture.md`](docs/architecture.md)
+- ADR-0001: [`docs/adr/0001-use-observable-framework.md`](docs/adr/0001-use-observable-framework.md)
 
 ## TODOs
 
