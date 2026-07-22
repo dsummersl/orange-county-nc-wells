@@ -1,0 +1,14 @@
+# Observable Framework
+node_modules/
+/dist/
+src/.observablehq/cache/
+.DS_Store
+yarn-error.log
+
+# Python loader intermediates / caches
+scripts/out/
+scripts/.cache/
+__pycache__/
+
+# TIGER/Line shapefiles (user-supplied, large)
+scripts/tiger/

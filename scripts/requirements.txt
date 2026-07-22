@@ -1,0 +1,3 @@
+requests>=2.31
+pandas>=2.0
+pyshp>=2.3   # optional — only needed to read TIGER/Line shapefiles for the map basemap

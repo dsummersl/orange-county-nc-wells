@@ -1,0 +1,71 @@
+# Daily-rebuild + GitHub Pages publish for the Observable Framework dashboard.
+#
+# This is a TEMPLATE. It is not installed into the agentexperiments monorepo (which
+# shouldn't run a scheduled groundwater job). To use it, copy this directory's contents
+# to the root of a dedicated repo and copy this file to .github/workflows/deploy.yml
+# there.
+#
+# Each run: re-fetches live data (data loaders run during `npm run build`), so the
+# published site shows fresh numbers and the "Data last fetched" stamp updates.
+#
+# Setup:
+#   1. Repo secret NOAA_CDO_TOKEN (free: https://www.ncdc.noaa.gov/cdo-web/token) — optional.
+#   2. Commit TIGER/Line shapefiles under scripts/tiger/ (or set TIGER_DIR) for the real map.
+#   3. Settings → Pages → Source: GitHub Actions.
+
+name: deploy
+
+on:
+  schedule:
+    - cron: "27 9 * * *"   # daily at 09:27 UTC
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python deps (used by the data loaders)
+        run: pip install -r scripts/requirements.txt
+
+      - name: Install Node deps
+        run: npm ci
+
+      - name: Build (runs data loaders → fresh data)
+        env:
+          NOAA_CDO_TOKEN: ${{ secrets.NOAA_CDO_TOKEN }}
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,22 @@
+{
+  "_comment": "Static per-well metadata (geology/location) for the Orange County, NC network, keyed by well id. scripts/ncwater.py discovers the live, rotating CSV download URLs itself, so the `csv`/`base_url` fields here are vestigial and no longer read — only id/name/lat/lon/depth_class/depth/record_start are used.",
+  "base_url": "https://www.ncwater.org/Data_and_Modeling/Ground_Water_Databases/potmaps/gwbdatafiles",
+  "wells": [
+    {"id": "G 44G1",  "name": "NES",                     "lat": 36.1445, "lon": -79.0513, "depth_class": "shallow", "depth": 45,  "record_start": 2014, "csv": "g44g1_generated_lev.csv"},
+    {"id": "G 45F1",  "name": "Eno Confluence Property",  "lat": 36.1369, "lon": -79.1600, "depth_class": "deep",    "depth": 192, "record_start": 2010, "csv": "g45f1_generated_lev.csv"},
+    {"id": "H 44P1",  "name": "Blackwood Farm Bedrock",  "lat": 36.0187, "lon": -79.0800, "depth_class": "deep",    "depth": 302, "record_start": 2010, "csv": "h44p1_generated_lev.csv"},
+    {"id": "H 44P2",  "name": "911 Center",              "lat": 36.0204, "lon": -79.0727, "depth_class": "deep",    "depth": 400, "record_start": 2012, "csv": "h44p2_generated_lev.csv"},
+    {"id": "H 44P3",  "name": "Blackwood Farm Regolith", "lat": 36.0185, "lon": -79.0799, "depth_class": "shallow", "depth": 45,  "record_start": 2014, "csv": "h44p3_generated_lev.csv"},
+    {"id": "H 44R1",  "name": "Brumley East",            "lat": 36.0221, "lon": -79.0472, "depth_class": "deep",    "depth": 605, "record_start": 2015, "csv": "h44r1_generated_lev.csv"},
+    {"id": "I 44B1",  "name": "DF-4D",                   "lat": 35.9882, "lon": -79.0199, "depth_class": "deep",    "depth": 397, "record_start": 2008, "csv": "i44b1_generated_lev.csv"},
+    {"id": "I 44B2",  "name": "DF-4S",                   "lat": 35.9882, "lon": -79.0198, "depth_class": "shallow", "depth": 25,  "record_start": 2015, "csv": "i44b2_generated_lev.csv"},
+    {"id": "I 44B3",  "name": "DF-4I",                   "lat": 35.9882, "lon": -79.0197, "depth_class": "shallow", "depth": 41,  "record_start": 2015, "csv": "i44b3_generated_lev.csv"},
+    {"id": "I 44F1",  "name": "Millhouse Road",          "lat": 35.9771, "lon": -79.0773, "depth_class": "deep",    "depth": 166, "record_start": 2010, "csv": "i44f1_generated_lev.csv"},
+    {"id": "I 45G1",  "name": "Rocky Ridge",             "lat": 35.9802, "lon": -79.1374, "depth_class": "deep",    "depth": 560, "record_start": 2010, "csv": "i45g1_generated_lev.csv"},
+    {"id": "I 45J1",  "name": "Eubanks Road",            "lat": 35.9677, "lon": -79.0954, "depth_class": "deep",    "depth": 141, "record_start": 2010, "csv": "i45j1_generated_lev.csv"},
+    {"id": "I 46R1",  "name": "COL-1",                   "lat": 35.9413, "lon": -79.2032, "depth_class": "shallow", "depth": 30,  "record_start": 2011, "csv": "i46r1_generated_lev.csv"},
+    {"id": "I 46R2",  "name": "COL-3",                   "lat": 35.9342, "lon": -79.2071, "depth_class": "shallow", "depth": 40,  "record_start": 2011, "csv": "i46r2_generated_lev.csv"},
+    {"id": "I 46W1",  "name": "COL-4",                   "lat": 35.9330, "lon": -79.2058, "depth_class": "shallow", "depth": 32,  "record_start": 2011, "csv": "i46w1_generated_lev.csv"},
+    {"id": "J 45J1",  "name": "Ray Road",                "lat": 35.8904, "lon": -79.0927, "depth_class": "deep",    "depth": 237, "record_start": 2010, "csv": "j45j1_generated_lev.csv"}
+  ]
+}
