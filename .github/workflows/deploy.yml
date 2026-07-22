@@ -17,7 +17,7 @@ name: deploy
 
 on:
   schedule:
-    - cron: "27 9 * * *"   # daily at 09:27 UTC
+    - cron: "27 9 * * 0"   # every week at 09:27 UTC (Sunday)
   push:
     branches: [main]
   workflow_dispatch: {}
@@ -32,18 +32,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+          cache: npm
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: pip
 
       - name: Install Python deps (used by the data loaders)
         run: pip install -r scripts/requirements.txt
@@ -51,21 +53,14 @@ jobs:
       - name: Install Node deps
         run: npm ci
 
-      - name: Build (runs data loaders → fresh data)
+      - name: Build (runs data loaders)
         env:
           NOAA_CDO_TOKEN: ${{ secrets.NOAA_CDO_TOKEN }}
         run: npm run build
 
+      - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
       - id: deploy
         uses: actions/deploy-pages@v4
